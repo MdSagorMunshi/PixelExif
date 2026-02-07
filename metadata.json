@@ -1,0 +1,5 @@
+{
+  "name": "PixelExif Retro Viewer",
+  "description": "A privacy-focused, offline-first, retro 90s-style image EXIF data viewer featuring a CRT terminal aesthetic and pixel art UI.",
+  "requestFramePermissions": []
+}

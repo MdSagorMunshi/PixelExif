@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Ryan Shelby" />
+    <title>PixelExif Retro Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Press+Start+2P&family=VT323&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #33ff00;
+        --primary-color-dim: rgba(51, 255, 0, 0.3);
+        --secondary-color: #ffb000;
+        --bg-color: #111;
+      }
+
+      body {
+        background-color: var(--bg-color);
+        overflow-x: hidden;
+      }
+      
+      /* Retro Scrollbar */
+      ::-webkit-scrollbar {
+        width: 16px;
+        background: #c0c0c0;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #808080;
+        border: 2px solid #fff;
+        border-right-color: #000;
+        border-bottom-color: #000;
+      }
+      ::-webkit-scrollbar-button {
+        background: #c0c0c0;
+        border: 2px solid #fff;
+        border-right-color: #000;
+        border-bottom-color: #000;
+        height: 16px;
+      }
+
+      /* CRT Effects */
+      .font-pixel {
+        font-family: 'Press Start 2P', cursive;
+      }
+      .font-terminal {
+        font-family: 'VT323', monospace;
+      }
+      
+      .scanlines {
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0),
+          rgba(255, 255, 255, 0) 50%,
+          rgba(0, 0, 0, 0.2) 50%,
+          rgba(0, 0, 0, 0.2)
+        );
+        background-size: 100% 4px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 50;
+        animation: scanline 10s linear infinite;
+      }
+      
+      .crt-overlay {
+        background: radial-gradient(circle, rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 100%);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        pointer-events: none;
+        z-index: 40;
+      }
+
+      @keyframes scanline {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(4px); }
+      }
+
+      .glow-text {
+        text-shadow: 0 0 4px currentColor;
+      }
+
+      .crt-flicker {
+        animation: flicker 0.15s infinite;
+      }
+
+      @keyframes flicker {
+        0% { opacity: 0.97; }
+        50% { opacity: 1; }
+        100% { opacity: 0.98; }
+      }
+
+      .cursor-blink {
+        animation: blink 1s step-end infinite;
+      }
+
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+      
+      /* Theme Classes */
+      .theme-green { --primary-color: #33ff00; --secondary-color: #ffb000; }
+      .theme-amber { --primary-color: #ffb000; --secondary-color: #33ff00; }
+      .theme-magenta { --primary-color: #ff00ff; --secondary-color: #00ffff; }
+      .theme-bw { --primary-color: #ffffff; --secondary-color: #aaaaaa; }
+      .theme-hacker { --primary-color: #00ff00; --secondary-color: #008800; --bg-color: #000; }
+      
+      /* Modern Reset for when in Modern Mode */
+      body.modern-mode {
+        background-color: #f8fafc;
+        color: #0f172a;
+        font-family: 'Inter', sans-serif;
+      }
+      body.modern-mode .scanlines,
+      body.modern-mode .crt-overlay {
+        display: none;
+      }
+      body.modern-mode ::-webkit-scrollbar {
+        width: 8px;
+        background: transparent;
+      }
+      body.modern-mode ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+        border: none;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "exifreader": "https://esm.sh/exifreader@^4.36.1",
+    "uuid": "https://esm.sh/uuid@^9.0.0",
+    "spark-md5": "https://esm.sh/spark-md5@^3.0.2"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+    <div class="scanlines"></div>
+    <div class="crt-overlay"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
